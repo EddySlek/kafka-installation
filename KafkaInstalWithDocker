@@ -1,0 +1,62 @@
+KAFKA:
+Already installed Docker on pc.
+
+After create docker-compose.yml and fill it. Follow those command:
+
+Starting                     -> docker-compose -f docker-compose.yml up
+Starting without backProcess -> docker-compose -f docker-compose.yml up -d
+Stop 						 -> docker-compose down
+
+docker ps
+docker exec -it kafka /bin/sh
+	ls
+cd opt
+	ls
+cd kafka_2.13-2.8.1
+	ls
+cd bin
+	ls
+cd ..
+	ls
+./bin/kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic ezselek
+./bin/kafka-topics.sh --list --zookeeper zookeeper:2181
+exit
+docker-compose down
+
+
+ls
+ctrl+c
+exit
+
+
+_____________________________________________________
+Secand Way:
+1) Download kafka throught Kafka.download on webpage and extract file then change folder name to "kafka" and copy/paste folder in c:/kafka
+2) C:\kafka\config -> open "server" file and update "log.dirs=/tmp/kafka-logs" to "log.dirs=c:/kafka/kafka-logs"
+3) C:\kafka\config -> open "zookeeper" file and update "dataDir=/tmp/zookeeper" to "dataDir=c:/kafka/zookeeper-data" 
+
+1.Step: Start kafka and zookeeper
+cmd in c:/kafka
+.\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties
+.\bin\windows\kafka-server-start.bat .\config\server.properties
+
+2.Step: Create Topic and producer
+cmd in C:\kafka\bin\windows
+kafka-topics.bat --create --bootstrap-server localhost:9092 --topic test
+kafka-console-producer.bat --broker-list localhost:9092 --topic test
+After create consumer, You should start to type anything from producer and listen on consumer
+
+3.Step: Create Consumer 
+cmd in C:\kafka\bin\windows
+kafka-console-consumer.bat --topic test --bootstrap-server localhost:9092 --from-beginning
+
+4.Step: Stop kafka
+.\bin\windows\zookeeper-server-stop.bat .\config\zookeeper.properties
+.\bin\windows\kafka-server-stop.bat .\config\server.properties
+
+Sample Data:
+
+{"Name: "John", "Age":"31", "Gender":"Male"}
+{"Name: "Emma", "Age":"27", "Gender":"Female"}
+{"Name: "Ronald", "Age":"17", "Gender":"Male"}
+--------------------------------------------------------------------------------------
